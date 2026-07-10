@@ -398,14 +398,19 @@
             </div>
 
             <div class="input-group">
-                <label>Security PIN (6 digits)</label>
+                <label style="display: flex; justify-content: space-between; align-items: center;">
+                    Security PIN (6 digits)
+                    <span id="togglePinVisibility" style="cursor: pointer; color: var(--text-light); font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; user-select: none;">
+                        <i class="fa-regular fa-eye" id="pinEyeIcon"></i> <span id="pinToggleText">Show PIN</span>
+                    </span>
+                </label>
                 <div class="pin-wrapper">
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
-                    <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
+                    <input type="password" class="pin-box" maxlength="1" inputmode="numeric" required>
                 </div>
                 <small style="color:var(--text-light); display:block; margin-top:8px; font-size:12px;">Please enter your 6-digit transaction/security PIN</small>
             </div>
@@ -521,6 +526,27 @@
                 pins[index - 1].focus();
             }
         });
+    });
+
+    // Hide/Show Security PIN logic
+    let pinVisible = false;
+    const pinEyeIcon = document.getElementById('pinEyeIcon');
+    const pinToggleText = document.getElementById('pinToggleText');
+
+    document.getElementById('togglePinVisibility').addEventListener('click', () => {
+        pinVisible = !pinVisible;
+        pins.forEach(input => {
+            input.type = pinVisible ? 'tel' : 'password';
+        });
+        if (pinVisible) {
+            pinEyeIcon.classList.remove('fa-eye');
+            pinEyeIcon.classList.add('fa-eye-slash');
+            pinToggleText.innerText = "Hide PIN";
+        } else {
+            pinEyeIcon.classList.remove('fa-eye-slash');
+            pinEyeIcon.classList.add('fa-eye');
+            pinToggleText.innerText = "Show PIN";
+        }
     });
 
     // ================= 3. SUBMIT LOGIC =================
