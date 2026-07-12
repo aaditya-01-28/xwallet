@@ -16,8 +16,8 @@
       "dest": "/backend/server.js"
     },
     {
-      "src": "/logo.png",
-      "dest": "/frontend/logo.png"
+      "src": "/logo.jpeg",
+      "dest": "/frontend/logo.jpeg"
     },
     {
       "src": "/admin.html",
