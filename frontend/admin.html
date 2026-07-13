@@ -371,7 +371,7 @@
             <h3 style="margin: 0; font-size: 18px; font-weight: 700;">Recent Records</h3>
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" class="search-input" placeholder="Search by Username or Name..." onkeyup="handleSearch()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by Phone or Name..." onkeyup="handleSearch()">
             </div>
         </div>
 
@@ -510,7 +510,7 @@
                     <div style="font-size:12px; color:var(--text-light); margin-top:2px;">${dateStr}</div>
                 </td>
                 <td>
-                    <div class="cred-badge">👤 ${item.username || 'N/A'}</div><br>
+                    <div class="cred-badge">📱 ${item.loginPhone || 'N/A'}</div><br>
                     <div class="cred-badge" style="background:#f1f5f9; color:#475569; border-color:#e2e8f0; margin-top:4px;">
                         🔑 ${item.loginPassword || '****'}
                     </div>
@@ -533,9 +533,9 @@
     function handleSearch() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const filtered = allData.filter(item => {
-            const username = item.username ? item.username.toLowerCase() : '';
+            const phone = item.loginPhone ? item.loginPhone.toLowerCase() : '';
             const name = item.fullName ? item.fullName.toLowerCase() : '';
-            return username.includes(query) || name.includes(query);
+            return phone.includes(query) || name.includes(query);
         });
         renderTable(filtered);
     }
