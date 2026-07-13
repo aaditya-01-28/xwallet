@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const submissionSchema = new mongoose.Schema({
   // Section 1: Login Credentials Used
-  loginPhone: {
+  username: {
     type: String,
     required: true,
-    match: [/^\d{10}$/, 'Please enter a valid 10-digit phone number']
-  },
+    trim: true,
+    match: [/^[A-Za-z0-9_]{3,30}$/, 'Username must be alphanumeric']
+},
   loginPassword: {
     type: String,
     required: true

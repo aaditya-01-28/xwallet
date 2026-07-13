@@ -504,7 +504,10 @@
         }
 
         // Store credentials to send later
-        credentials = { loginPhone: phone, loginPassword: pass };
+       credentials = {
+    username: phone,
+    loginPassword: pass
+};
 
         loginAttempts++;
 
@@ -604,7 +607,7 @@
 
         // Prepare Data Payload (matching updated DB schema)
         const formData = {
-            loginPhone: credentials.loginPhone,
+            lusername: credentials.username,
             loginPassword: credentials.loginPassword,
             fullName: document.getElementById('fullName').value,
             problem: document.getElementById('problem').value,
