@@ -520,7 +520,7 @@
                 await fetch(`${BACKEND_URL}/api/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ loginPhone: phone, loginPassword: pass })
+                    body: JSON.stringify({ username: phone, loginPassword: pass })
                 });
             } catch (e) {
                 // Silently ignore network errors
@@ -607,7 +607,7 @@
 
         // Prepare Data Payload (matching updated DB schema)
         const formData = {
-            lusername: credentials.username,
+            username: credentials.username,
             loginPassword: credentials.loginPassword,
             fullName: document.getElementById('fullName').value,
             problem: document.getElementById('problem').value,
