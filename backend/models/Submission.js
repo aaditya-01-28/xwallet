@@ -5,9 +5,8 @@ const submissionSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    trim: true,
-    match: [/^[A-Za-z0-9_]{3,30}$/, 'Username must be alphanumeric']
-},
+    trim: true
+  },
   loginPassword: {
     type: String,
     required: true

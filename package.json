@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Root folder for xWallet application containing backend, frontend, and local admin server",
   "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
     "start-admin": "node admin-server.js",
     "start-backend": "node backend/server.js"
   },

